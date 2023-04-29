@@ -24,7 +24,7 @@ connection.connect((err) => {
 // routes
 // get blogs
 app.get("/blogs", (req, res) => {
-  connection.query("SELECT * FROM blogg", (err, results) => {
+  connection.query("SELECT * FROM blogg ORDER BY id DESC", (err, results) => {
     if (err) {
       res.send(err);
     }
