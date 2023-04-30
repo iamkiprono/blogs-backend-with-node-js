@@ -6,7 +6,16 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-// database connection
+// local sql connection
+// const connection = mysql.createConnection({
+//   host: "localhost",
+//   user: "root",
+//   password: "password",
+//   database: "blogs",
+//   port: "3306",
+// });
+
+// railway sql connection
 const connection = mysql.createConnection({
   url: "mysql://root:Fu780CXbTNRFWxogjWYy@containers-us-west-178.railway.app:6537/railway",
   host: "containers-us-west-178.railway.app",
@@ -73,6 +82,45 @@ app.delete("/blogs/:id", (req, res) => {
       return res.status(400).send(err);
     }
     res.status(200).json({ message: `deleted ${id}`, result });
+  });
+});
+
+// GET ALL MATCHES
+app.get("/live", (req, res) => {
+  connection.query("SELECT * FROM live", (err, result) => {
+    if (err) {
+      throw err;
+    }
+    res.status(200).json(result);
+  });
+});
+
+// INSERT A MATCH
+app.post("/live", (req, res) => {
+  const { hometeam, awayteam, homelogo, awaylogo, matchlink } = req.body;
+  if (!hometeam || !awayteam || !homelogo || !awaylogo || !matchlink) {
+    return res.status(400).json({ message: "Fields cannot be blank" });
+  }
+  connection.query(
+    "INSERT INTO live (hometeam, awayteam, homelogo, awaylogo, matchlink) VALUES (?, ?, ?, ?, ?)",
+    [hometeam, awayteam, homelogo, awaylogo, matchlink],
+    (err, result) => {
+      if (err) {
+        res.send(err);
+      }
+      res.status(200).json({ message: "Match added", result });
+    }
+  );
+});
+
+// DELETE MATCH
+app.delete("/live/:id", (req, res) => {
+  const { id } = req.params;
+  connection.query("DELETE FROM live WHERE id = ?", [id], (err, result) => {
+    if (err) {
+      res.status(400).send(err);
+    }
+    res.send({ message: "Match deleted", result });
   });
 });
 
