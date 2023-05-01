@@ -70,7 +70,7 @@ app.post("/create", (req, res) => {
       console.log(err);
     }
 
-    res.json({ message: "Blog added", title, blog, result });
+    res.status(200).json({ message: "Blog added", title, blog, result });
   });
 });
 
