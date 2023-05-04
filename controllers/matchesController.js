@@ -6,7 +6,7 @@ const getMatches = async (req, res) => {
     const results = await connection.query("SELECT * FROM live");
     res.send(results[0]);
   } catch (error) {
-    res.send({ error: error.message });
+    res.status(400).send({ error: error.message });
   }
 };
 
@@ -24,7 +24,7 @@ const insertMatch = async (req, res) => {
     );
     res.send({ message: "Match Added", result });
   } catch (error) {
-    res.send({ error: error.message });
+    res.status(400).send({ error: error.message });
   }
 };
 

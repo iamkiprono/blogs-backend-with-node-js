@@ -13,7 +13,7 @@ const createBlog = async (req, res) => {
     const result = await connection.query(sql, [values]);
     res.send({ message: "Blog added", result });
   } catch (error) {
-    res.send({ error: error.message });
+    res.status(400).send({ error: error.message });
   }
 };
 
@@ -24,7 +24,7 @@ const getBlog = async (req, res) => {
     const results = await connection.query("SELECT * FROM blogg where id = ?",[id])
     res.send(results[0])
   } catch (error) {
-    res.send({error: error.message})
+    res.status(400).send({error: error.message})
   }
 };
 
@@ -36,7 +36,7 @@ const getBlogs = async (req, res) => {
     );
     res.json(results[0]);
   } catch (error) {
-    res.send({ error: error.message });
+    res.status(400).send({ error: error.message });
   }
 };
 
@@ -49,7 +49,7 @@ const deleteBlog = async (req, res) => {
     ]);
     res.send({ message: `${id} deleted`, result });
   } catch (error) {
-    res.send({ error: error.message });
+    res.status(400).send({ error: error.message });
   }
 };
 
