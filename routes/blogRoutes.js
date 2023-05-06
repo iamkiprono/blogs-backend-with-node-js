@@ -10,6 +10,7 @@ const {
 // get blogs
 router.get("/blogs", getBlogs);
 
+
 // get single blog
 router.get("/blogs/:id", getBlog);
 
