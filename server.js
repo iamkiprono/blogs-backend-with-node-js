@@ -4,6 +4,7 @@ const cors = require("cors");
 const userRoutes = require("./routes/userRoutes");
 const blogRoutes = require("./routes/blogRoutes");
 const matchesRoutes = require("./routes/matchesRoutes");
+var port = process.env.PORT || 3000;
 
 const app = express();
 app.use(express.json());
@@ -13,6 +14,8 @@ app.use(cors());
 app.use("/user", userRoutes);
 app.use("/", blogRoutes);
 app.use("/", matchesRoutes);
-app.listen(5000, () => {
-  console.log("Running on PORT 5000");
+
+
+app.listen(port, '0.0.0.0', () => {
+  console.log(`Running on PORT ${port}`);
 });
