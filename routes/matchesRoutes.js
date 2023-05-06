@@ -5,7 +5,7 @@ const {
   deleteMatch,
   getMatches,
 } = require("../controllers/matchesController");
-const requireAuth = require("../middleware/requireAuth");
+// const requireAuth = require("../middleware/requireAuth");
 
 const router = express.Router();
  
@@ -17,7 +17,7 @@ const router = express.Router();
 router.get("/live", getMatches);
 
 // require auth for all matches routes
-router.use(requireAuth)
+// router.use(requireAuth)
 
 // insert Matches
 router.post("/live", insertMatch);
