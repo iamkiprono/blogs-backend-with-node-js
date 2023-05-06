@@ -16,8 +16,6 @@ const router = express.Router();
 
 router.get("/live", getMatches);
 
-// require auth for all matches routes
-// router.use(requireAuth)
 
 // insert Matches
 router.post("/live", insertMatch);
