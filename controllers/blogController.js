@@ -3,6 +3,7 @@ const connection = require("../db/db");
 // create blog
 const createBlog = async (req, res) => {
   const { title, blog, image } = req.body;
+  
 
   try {
     if (!title || !blog || !image) {
