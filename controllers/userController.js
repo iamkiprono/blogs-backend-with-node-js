@@ -26,8 +26,10 @@ const loginUser = async (req, res) => {
     if (!match) {
       throw Error("Incorrect password");
     }
-    const token = createToken(user[0].id);
-    res.status(200).send({ email, token });
+    console.log(user[0][0]);
+    const id = user[0][0].id;
+    const token = createToken(id);
+    res.status(200).send({ id, email, token });
   } catch (error) {
     res.status(400).send({ error: error.message });
   }
@@ -61,8 +63,11 @@ const signupUser = async (req, res) => {
       "INSERT INTO users (email, password) VALUES (?, ?)",
       [email, hash]
     );
-    const token = createToken(user[0].insertId);
-    res.status(200).send({ email, token });
+
+    const id = user[0].insertId;
+    console.log(id)
+    const token =  createToken(id);
+    res.status(200).send({ id, email, token });
   } catch (error) {
     res.status(400).send({ error: error.message });
   }
