@@ -14,5 +14,5 @@ app.use("/user", userRoutes);
 app.use("/", blogRoutes);
 app.use("/", matchesRoutes);
 app.listen(5000, () => {
-  console.log("Running on 5000");
+  console.log("Running on PORT 5000");
 });
