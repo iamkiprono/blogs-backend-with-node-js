@@ -11,9 +11,7 @@ const requireAuth = async (req, res, next) => {
     console.log(id)
     req.user = await connection.query("SELECT * FROM users where id = ? ", [id])
     console.log(req.user[0][0])
-    if(!req.user[0][0].admin){
-        throw Error("You are not authorized")
-    }
+ 
     next()
   } catch (error) {
     res.status(400).send({ error: error.message });
