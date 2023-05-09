@@ -4,14 +4,17 @@ const cors = require("cors");
 const userRoutes = require("./routes/userRoutes");
 const blogRoutes = require("./routes/blogRoutes");
 const matchesRoutes = require("./routes/matchesRoutes");
+
 var port = process.env.PORT || 3000;
 
 const app = express();
 app.use(express.json());
 app.use(cors());
 
+
 // routes
 app.use("/user", userRoutes);
+
 app.use("/", blogRoutes);
 app.use("/", matchesRoutes);
 

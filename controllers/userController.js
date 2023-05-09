@@ -26,10 +26,13 @@ const loginUser = async (req, res) => {
     if (!match) {
       throw Error("Incorrect password");
     }
+
+    const { admin } = user[0][0];
+
     console.log(user[0][0]);
     const id = user[0][0].id;
     const token = createToken(id);
-    res.status(200).send({ id, email, token });
+    res.status(200).send({ id, admin, email, token });
   } catch (error) {
     res.status(400).send({ error: error.message });
   }
@@ -37,7 +40,7 @@ const loginUser = async (req, res) => {
 
 // sign up user
 const signupUser = async (req, res) => {
-  const { email, password } = req.body;
+  const { email, password, admin } = req.body;
 
   try {
     if (!email || !password) {
@@ -60,14 +63,14 @@ const signupUser = async (req, res) => {
     const salt = await bcrypt.genSalt(10);
     const hash = await bcrypt.hash(password, salt);
     const user = await connection.query(
-      "INSERT INTO users (email, password) VALUES (?, ?)",
-      [email, hash]
+      "INSERT INTO users (email, password, admin) VALUES (?, ? , ?)",
+      [email, hash, admin]
     );
-
+    
     const id = user[0].insertId;
-    console.log(id)
-    const token =  createToken(id);
-    res.status(200).send({ id, email, token });
+    console.log(id);
+    const token = createToken(id);
+    res.status(200).send({ id,  email, token });
   } catch (error) {
     res.status(400).send({ error: error.message });
   }

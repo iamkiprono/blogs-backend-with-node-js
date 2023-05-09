@@ -6,6 +6,7 @@ const {
   getBlog,
   deleteBlog,
 } = require("../controllers/blogController");
+const requireAuth = require("../middleware/requireAuth");
 
 // get blogs
 router.get("/blogs", getBlogs);
@@ -15,9 +16,9 @@ router.get("/blogs", getBlogs);
 router.get("/blogs/:id", getBlog);
 
 // create blog
-router.post("/create", createBlog);
+router.post("/create",requireAuth, createBlog);
 
 // delete blog
-router.delete("/blogs/:id", deleteBlog);
+router.delete("/blogs/:id",requireAuth, deleteBlog);
 
 module.exports = router;
