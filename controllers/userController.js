@@ -16,24 +16,22 @@ const loginUser = async (req, res) => {
     if (!email || !password) {
       throw Error("All fields are required");
     }
-    const user = await connection.query(`SELECT * FROM users WHERE email = ?`, [
-      email,
-    ]);
+    const user = await User.findOne({email})
 
-    if (!user[0].length) {
+    if (!user) {
       throw Error("Incorrect email");
     }
-    const match = await bcrypt.compare(password, user[0][0].password);
+    const match = await bcrypt.compare(password, user.password);
     if (!match) {
       throw Error("Incorrect password");
     }
 
-    const { admin } = user[0][0];
+    // const { admin } = user[0][0];
 
-    console.log(user[0][0]);
-    const id = user[0][0].id;
+    // console.log(user[0][0]);
+    const id = user._id;
     const token = createToken(id);
-    res.status(200).send({ id, admin, email, token });
+    res.status(200).send({ id, email, token });
   } catch (error) {
     res.status(400).send({ error: error.message });
   }
