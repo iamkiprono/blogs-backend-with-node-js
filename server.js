@@ -4,9 +4,11 @@ const cors = require("cors");
 const userRoutes = require("./routes/userRoutes");
 const blogRoutes = require("./routes/blogRoutes");
 const matchesRoutes = require("./routes/matchesRoutes");
-
+const connectDb = require('./config/db')
 var port = process.env.PORT || 3000;
 
+
+connectDb()
 const app = express();
 app.use(express.json());
 app.use(cors());

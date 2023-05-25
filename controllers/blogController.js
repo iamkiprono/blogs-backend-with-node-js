@@ -1,4 +1,5 @@
 const connection = require("../db/db");
+const Blog = require('../models/BlogModel')
 
 // create blog
 const createBlog = async (req, res) => {
@@ -32,10 +33,8 @@ const getBlog = async (req, res) => {
 // get all blogs
 const getBlogs = async (req, res) => {
   try {
-    const results = await connection.query(
-      "SELECT * FROM blogg ORDER BY id DESC"
-    );
-    res.json(results[0]);
+    const results = await Blog.find()
+    res.json(results);
   } catch (error) {
     res.status(400).send({ error: error.message });
   }
