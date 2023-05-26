@@ -8,9 +8,9 @@ const requireAuth = async (req, res, next) => {
       throw Error("Token required");
     }
     const token = req.headers.authorization.split(" ")[1];
-    const { id } = jwt.verify(token, "CH3M051TK1TY0K37010614");
-    console.log(id);
-    req.user = await User.findOne({ id });
+    const  _id  = jwt.verify(token, "CH3M051TK1TY0K37010614").id;
+
+    req.user = await User.findOne({ _id }).select("_id");
 
     next();
   } catch (error) {
