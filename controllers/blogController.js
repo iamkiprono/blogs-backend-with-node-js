@@ -23,6 +23,7 @@ const getBlog = async (req, res) => {
   const { id } = req.params;
   try {
     const results = await Blog.findOne({ _id: id });
+  
     res.send(results);
   } catch (error) {
     res.status(400).send({ error: error.message });
