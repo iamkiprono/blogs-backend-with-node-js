@@ -30,8 +30,9 @@ const loginUser = async (req, res) => {
 
     // console.log(user[0][0]);
     const id = user._id;
+    const admin = user.admin
     const token = createToken(id);
-    res.status(200).send({ id, email, token });
+    res.status(200).send({ id, email, token, admin });
   } catch (error) {
     res.status(400).send({ error: error.message });
   }
