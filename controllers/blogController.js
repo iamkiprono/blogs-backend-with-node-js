@@ -9,9 +9,7 @@ const createBlog = async (req, res) => {
     if (!title || !blog || !image) {
       throw Error("Fields cannot be empty");
     }
-    const values = [[title, blog, image]];
-    const sql = "INSERT INTO blogg ( title, blog, image) VALUES ?";
-    const result = await connection.query(sql, [values]);
+    const result = await Blog.create({ title, blog, image });
     res.send({ message: "Blog added", result });
   } catch (error) {
     res.status(400).send({ error: error.message });
@@ -23,7 +21,7 @@ const getBlog = async (req, res) => {
   const { id } = req.params;
   try {
     const results = await Blog.findOne({ _id: id });
-  
+
     res.send(results);
   } catch (error) {
     res.status(400).send({ error: error.message });
