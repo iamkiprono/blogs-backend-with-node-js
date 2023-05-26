@@ -30,9 +30,7 @@ const insertMatch = async (req, res) => {
 const deleteMatch = async (req, res) => {
   const { id } = req.params;
   try {
-    const result = await connection.query("DELETE FROM live WHERE id = ?", [
-      id,
-    ]);
+    const result = await Match.findOneAndDelete({_id:id})
     res.send({ message: `Deleted ${id}`, result });
   } catch (error) {
     res.send({ error: error.message });
