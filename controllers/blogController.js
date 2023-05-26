@@ -31,7 +31,7 @@ const getBlog = async (req, res) => {
 // get all blogs
 const getBlogs = async (req, res) => {
   try {
-    const results = await Blog.find();
+    const results = await Blog.find().sort({ createdAt: -1 || datecreated: -1});
     res.json(results);
   } catch (error) {
     res.status(400).send({ error: error.message });
@@ -42,9 +42,7 @@ const getBlogs = async (req, res) => {
 const deleteBlog = async (req, res) => {
   const { id } = req.params;
   try {
-    const result = await connection.query("DELETE FROM blogg WHERE id = ?", [
-      id,
-    ]);
+    const result = await Blog.findOneAndDelete({ _id: id });
     res.send({ message: `${id} deleted`, result });
   } catch (error) {
     res.status(400).send({ error: error.message });
