@@ -31,7 +31,7 @@ const getBlog = async (req, res) => {
 // get all blogs
 const getBlogs = async (req, res) => {
   try {
-    const results = await Blog.find().sort({ createdAt: -1 || datecreated: -1});
+    const results = await Blog.find().sort({ createdAt: -1 });
     res.json(results);
   } catch (error) {
     res.status(400).send({ error: error.message });
