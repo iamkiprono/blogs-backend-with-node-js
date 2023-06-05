@@ -1,9 +1,9 @@
 const connection = require("../db/db");
+const Blog = require("../models/blogModel");
 
 // create blog
 const createBlog = async (req, res) => {
   const { title, blog, image } = req.body;
-  
 
   try {
     if (!title || !blog || !image) {
@@ -22,23 +22,32 @@ const createBlog = async (req, res) => {
 const getBlog = async (req, res) => {
   const { id } = req.params;
   try {
-    const results = await connection.query("SELECT * FROM blogg where id = ?",[id])
-    res.send(results[0])
+    const results = await connection.query("SELECT * FROM blogg where id = ?", [
+      id,
+    ]);
+    res.send(results[0]);
   } catch (error) {
-    res.status(400).send({error: error.message})
+    res.status(400).send({ error: error.message });
   }
 };
 
 // get all blogs
 const getBlogs = async (req, res) => {
   try {
-    const results = await connection.query(
-      "SELECT * FROM blogg ORDER BY id DESC"
-    );
-    res.json(results[0]);
+    const blogs = await Blog.find();
+    res.status(200).json(blogs);
   } catch (error) {
-    res.status(400).send({ error: error.message });
+    res.status(400).json({ error: error.message });
   }
+
+  // try {
+  //   const results = await connection.query(
+  //     "SELECT * FROM blogg ORDER BY id DESC"
+  //   );
+  //   res.json(results[0]);
+  // } catch (error) {
+  //   res.status(400).send({ error: error.message });
+  // }
 };
 
 // delete blog

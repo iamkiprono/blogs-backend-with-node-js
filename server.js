@@ -1,11 +1,15 @@
+require("dotenv").config();
 const express = require("express");
 const mysql = require("mysql2");
 const cors = require("cors");
 const userRoutes = require("./routes/userRoutes");
 const blogRoutes = require("./routes/blogRoutes");
 const matchesRoutes = require("./routes/matchesRoutes");
+const connectDB = require("./config/mongoDB");
 
 var port = process.env.PORT || 3000;
+
+connectDB()
 
 const app = express();
 app.use(express.json());
