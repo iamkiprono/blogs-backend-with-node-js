@@ -3,6 +3,7 @@ const connection = require("../db/db");
 const bcrypt = require("bcrypt");
 const validator = require("validator");
 const jwt = require("jsonwebtoken");
+const User = require("../models/userModel");
 
 const createToken = (id) => {
   return jwt.sign({ id }, "CH3M051TK1TY0K37010614", { expiresIn: "3d" });
@@ -15,24 +16,23 @@ const loginUser = async (req, res) => {
     if (!email || !password) {
       throw Error("All fields are required");
     }
-    const user = await connection.query(`SELECT * FROM users WHERE email = ?`, [
-      email,
-    ]);
+    const user = await User.findOne({email})
 
-    if (!user[0].length) {
+    if (!user) {
       throw Error("Incorrect email");
     }
-    const match = await bcrypt.compare(password, user[0][0].password);
+    const match = await bcrypt.compare(password, user.password);
     if (!match) {
       throw Error("Incorrect password");
     }
 
-    const { admin } = user[0][0];
+    // const { admin } = user[0][0];
 
-    console.log(user[0][0]);
-    const id = user[0][0].id;
+    // console.log(user[0][0]);
+    const id = user._id;
+    const admin = user.admin
     const token = createToken(id);
-    res.status(200).send({ id, admin, email, token });
+    res.status(200).send({ id, email, token, admin });
   } catch (error) {
     res.status(400).send({ error: error.message });
   }
@@ -53,24 +53,21 @@ const signupUser = async (req, res) => {
       throw Error("Password not strong enough");
     }
 
-    const exists = await connection.query(
-      `SELECT email FROM users WHERE email = ?`,
-      [email]
-    );
-    if (exists[0].length) {
-      throw Error("Email already in use");
-    }
+    // const exists = await connection.query(
+    //   `SELECT email FROM users WHERE email = ?`,
+    //   [email]
+    // );
+    // if (exists[0].length) {
+    //   throw Error("Email already in use");
+    // }
     const salt = await bcrypt.genSalt(10);
     const hash = await bcrypt.hash(password, salt);
-    const user = await connection.query(
-      "INSERT INTO users (email, password, admin) VALUES (?, ? , ?)",
-      [email, hash, admin]
-    );
-    
-    const id = user[0].insertId;
+    const user = await User.create({ email, password: hash, admin });
+
+    const id = user._id;
     console.log(id);
-    const token = createToken(id);
-    res.status(200).send({ id,  email, token });
+    const token = await createToken(id);
+    res.status(200).send({ id, email, token });
   } catch (error) {
     res.status(400).send({ error: error.message });
   }
