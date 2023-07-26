@@ -1,9 +1,5 @@
 const connection = require("../db/db");
-<<<<<<< HEAD
-const Blog = require("../models/blogModel");
-=======
 const Blog = require("../models/BlogModel");
->>>>>>> 93995f064084631b6bb92e70a2ad9488076a5bad
 
 // create blog
 const createBlog = async (req, res) => {
@@ -24,16 +20,9 @@ const createBlog = async (req, res) => {
 const getBlog = async (req, res) => {
   const { id } = req.params;
   try {
-<<<<<<< HEAD
-    const results = await connection.query("SELECT * FROM blogg where id = ?", [
-      id,
-    ]);
-    res.send(results[0]);
-=======
     const results = await Blog.findOne({ _id: id });
 
     res.send(results);
->>>>>>> 93995f064084631b6bb92e70a2ad9488076a5bad
   } catch (error) {
     res.status(400).send({ error: error.message });
   }
@@ -42,13 +31,8 @@ const getBlog = async (req, res) => {
 // get all blogs
 const getBlogs = async (req, res) => {
   try {
-<<<<<<< HEAD
-    const blogs = await Blog.find();
-    res.status(200).json(blogs);
-=======
     const results = await Blog.find().sort({ createdAt: -1 });
     res.json(results);
->>>>>>> 93995f064084631b6bb92e70a2ad9488076a5bad
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
