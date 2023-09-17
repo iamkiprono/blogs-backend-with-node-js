@@ -5,6 +5,8 @@ const validator = require("validator");
 const jwt = require("jsonwebtoken");
 const User = require("../models/userModel");
 
+const saveJwt = require("../functions/saveJWT")
+
 const createToken = (id) => {
   return jwt.sign({ id }, "CH3M051TK1TY0K37010614", { expiresIn: "3d" });
 };
