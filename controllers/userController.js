@@ -32,7 +32,8 @@ const loginUser = async (req, res) => {
     const id = user._id;
     const admin = user.admin
     const token = createToken(id);
-    res.status(200).send({ id, email, token, admin });
+    const savedToken = await saveJwt(token)
+    res.status(200).send({ id, email, token, admin, savedToken });
   } catch (error) {
     res.status(400).send({ error: error.message });
   }
